@@ -1,12 +1,29 @@
 {
+  "homepage": "https://ArturW1998.github.io/CurrencyConverter",
   "name": "currency-converter",
   "version": "0.1.0",
   "private": true,
+  "description": "Simple React Currency Converter Application",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ArturW1998/CurrencyConverter"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "react-redux",
+    "react-router",
+    "redux-thunk",
+    "bootstrap",
+    "react-bootstrap"
+  ],
+  "author": "Artur Voloshyn (https://github.com/arturw1998)",
+  "license": "MIT",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "bootstrap": "^5.0.0",
+    "bootstrap": "^4.6.0",
     "node-sass": "^6.0.0",
     "react": "^17.0.2",
     "react-app-polyfill": "^2.0.0",
@@ -31,17 +48,61 @@
     "workbox-strategies": "^5.1.3",
     "workbox-streams": "^5.1.3"
   },
+  "devDependencies": {
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-flowtype": "^3.13.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "gh-pages": "^3.1.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1",
+    "stylelint": "^12.0.1",
+    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-recommended": "^3.0.0",
+    "stylelint-config-standard": "^19.0.0",
+    "stylelint-order": "^3.1.1",
+    "stylelint-prettier": "^1.1.2"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:update": "yarn test -- -u",
+    "test:watch": "yarn test -- --watchAll --verbose",
+    "test:coverage": "yarn test -- --bail --coverage --watchAll",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
+    "lint:styles": "stylelint --syntax scss src/**/*.scss",
+    "lint": "eslint --ext .js,.jsx src",
+    "lint:fix": "yarn lint -- --fix",
+    "lint:styles:fix": "yarn lint:styles -- --fix",
+    "format": "prettier \"src/**/*.{js,jsx,yml,yaml,ts,tsx,md,graphql,mdx}\" --write",
+    "format:styles": "prettier \"src/**/*.scss\" --parser scss --write",
+    "precommit": "lint-staged"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn precommit"
+    }
   },
   "browserslist": {
     "production": [
