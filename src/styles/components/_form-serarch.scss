@@ -1,0 +1,19 @@
+.searchForm {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 20px;
+  width: 380px;
+
+  input {
+    border: none;
+    border-bottom: 0.5px solid rgb(56, 120, 180);
+    margin-right: 20px;
+    outline: none;
+    width: 80%;
+  }
+
+  @media only screen and (max-width: 576px) {
+    width: 90vw;
+  }
+}

@@ -1,0 +1,19 @@
+.nav {
+  padding: 10px;
+}
+
+.navLink {
+  padding: 5px;
+  text-decoration: none;
+
+  & > * {
+    text-decoration: none !important;
+  }
+
+  .active {
+    background-color: rgb(29, 167, 247);
+    border-radius: 5px;
+    color: #fff0f5;
+    padding: inherit;
+  }
+}

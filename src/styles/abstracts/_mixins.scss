@@ -1,0 +1,46 @@
+@mixin boxDecoration() {
+  border-radius: 4px;
+  box-shadow: 1px 4px 8px 0 rgba(34, 60, 80, 0.2);
+}
+
+@mixin animateFrame($name, $duration: '0.7s', $direction: 'normal') {
+  $positionOrigin: 'left top';
+  animation-direction: #{$direction};
+  animation-duration: #{$duration};
+  animation-fill-mode: forwards;
+
+  animation-name: #{$name};
+
+  @if $name == 'slideLeft' {
+    @keyframes #{$name} {
+      from {
+        transform: translate(100vw, 0);
+      }
+      to {
+        transform: translate(0, 0);
+      }
+    }
+  }
+
+  @if $name == 'opacity' {
+    @keyframes #{$name} {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  }
+
+  @if $name == 'rotate' {
+    @keyframes #{$name} {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}

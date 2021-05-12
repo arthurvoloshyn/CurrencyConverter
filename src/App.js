@@ -5,7 +5,7 @@ import ROUTES from './constants/routes';
 import MainLayout from './views/layouts/Main';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './sass/index.scss';
+import './styles/index.scss';
 
 const App = () => (
   <MainLayout>

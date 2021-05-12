@@ -1,0 +1,75 @@
+.converter_wrapper {
+  display: flex;
+  height: 60vh;
+  justify-content: center;
+
+  & > * {
+    align-self: center;
+    justify-content: center;
+    text-align: center;
+
+    @media only screen and (max-width: 576px) {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  form {
+    @include boxDecoration();
+    @include animateFrame('opacity');
+
+    background-color: rgb(236, 235, 232);
+    padding: 8px;
+    text-align: left;
+
+    label {
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    select,
+    input {
+      background-color: inherit;
+      border: none;
+      outline: none;
+    }
+
+    input {
+      background-color: inherit;
+      border-bottom: 1.5px solid rgb(56, 120, 180);
+      margin-left: 5px;
+      margin-right: 20px;
+      max-width: 50%;
+    }
+  }
+
+  .converter_2 input {
+    border-color: rgb(190, 190, 194);
+  }
+
+  .converter_arrow {
+    @include boxDecoration();
+
+    align-self: center;
+    background-color: rgb(236, 235, 232);
+    border-radius: 50%;
+    cursor: pointer;
+    height: 25px;
+    padding: 0;
+    transition: transform 0.2s;
+    user-select: none;
+    width: 25px;
+  }
+
+  &:hover {
+    background-color: rgb(228, 226, 220);
+    transform: scale(1.18);
+  }
+
+  &:active {
+    background-color: rgb(235, 231, 225);
+  }
+}
