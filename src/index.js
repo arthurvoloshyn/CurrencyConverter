@@ -4,6 +4,7 @@ import 'react-app-polyfill/stable';
 import React, { StrictMode } from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import { HashRouter as Router } from 'react-router-dom';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
@@ -17,9 +18,11 @@ const error = <Error description="Something went wrong!" title="Error" />;
 render(
   <StrictMode>
     <Provider store={store}>
-      <ErrorBoundary fallback={error}>
-        <App />
-      </ErrorBoundary>
+      <Router>
+        <ErrorBoundary fallback={error}>
+          <App />
+        </ErrorBoundary>
+      </Router>
     </Provider>
   </StrictMode>,
   document.getElementById('root'),
