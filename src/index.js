@@ -8,6 +8,7 @@ import { HashRouter as Router } from 'react-router-dom';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import ENV from './constants/environment';
 import store from './store/store';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -31,4 +32,4 @@ render(
 serviceWorkerRegistration.register();
 
 // eslint-disable-next-line no-console
-reportWebVitals(console.log);
+ENV.IS_DEV && reportWebVitals(console.log);
