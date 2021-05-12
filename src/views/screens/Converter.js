@@ -13,125 +13,163 @@ const Converter = () => {
 
   const dispatch = useDispatch();
   const currency = useSelector(selectCurrency);
-  const [options, setOptions] = useState(['EUR', 'AUD', 'GBP']);
-  const [dataF1, setDataF1] = useState({
+  const [currencyOptions, setCurrencyOptions] = useState(['EUR', 'AUD', 'GBP']);
+
+  const defaultCurrencyForm = {
     label: '',
     input: 1,
     select: '',
     value: '',
-  });
-  const [dataF2, setDataF2] = useState({
-    label: '',
-    input: 1,
-    select: '',
-    value: '',
-  });
+  };
+  const [[leftCurrencyForm, rightCurrencyForm], setCurrencyForms] = useState([
+    defaultCurrencyForm,
+    defaultCurrencyForm,
+  ]);
+
+  const currencyTickers = Object.keys(currency);
 
   useEffect(() => {
-    if (!Object.keys(currency).length) dispatch(getCurrencyList());
-  }, [dispatch, currency, getCurrencyList]);
+    if (!currencyTickers.length) dispatch(getCurrencyList());
+  }, [dispatch, currency, getCurrencyList, currencyTickers.length]);
 
   useEffect(() => {
-    const keys = Object.keys(currency);
+    if (currencyTickers.length) {
+      setCurrencyOptions(currencyTickers);
 
-    if (keys.length) {
-      setOptions(keys);
+      const updateCurrencyForm = currencyTicker => ({
+        label: currency[currencyTicker].Name,
+        input: 1,
+        select: currencyTicker,
+        value: currency[currencyTicker].Value,
+      });
 
-      setDataF1({
-        label: currency[keys[0]].Name,
-        input: 1,
-        select: keys[0],
-        value: currency[keys[0]].Value,
-      });
-      setDataF2({
-        label: currency[keys[1]].Name,
-        input: 1,
-        select: keys[1],
-        value: currency[keys[1]].Value,
-      });
+      const [firstCurrencyTickers, secondCurrencyTickers] = currencyTickers;
+      setCurrencyForms([
+        updateCurrencyForm(firstCurrencyTickers),
+        updateCurrencyForm(secondCurrencyTickers),
+      ]);
     }
-  }, [currency]);
+  }, [currency, currencyTickers.length]); // eslint-disable-line react-hooks/exhaustive-deps, max-len
 
-  // --Convert Currency
+  const updateCurrencyFormsByIndex = (currencyFormIndex, data) =>
+    setCurrencyForms(prevCurrencyForms =>
+      [...prevCurrencyForms].map((currencyForm, index) =>
+        index === currencyFormIndex
+          ? { ...currencyForm, ...data }
+          : currencyForm,
+      ),
+    );
+
   const convert = useCallback(
     // eslint-disable-next-line consistent-return
     (inputData = 1) => {
-      if (!dataF1.value || !dataF2.value || Number.isNaN(inputData)) return 0;
+      if (
+        !leftCurrencyForm.value ||
+        !rightCurrencyForm.value ||
+        Number.isNaN(inputData)
+      ) {
+        return 0;
+      }
 
-      const index = dataF1.value / dataF2.value;
+      const index = leftCurrencyForm.value / rightCurrencyForm.value;
 
       let result = inputData * index;
       result = result.toFixed(2);
 
-      setDataF2(prev => ({ ...prev, input: result }));
+      updateCurrencyFormsByIndex(1, { input: result });
     },
-    [dataF1.value, dataF2.value],
+    [leftCurrencyForm.value, rightCurrencyForm.value],
   );
 
   useEffect(() => {
-    const selValueF1 = dataF1.select;
+    const leftCurrencyFormSelValue = leftCurrencyForm.select;
 
-    if (selValueF1 && currency[selValueF1]) convert(dataF1.input);
-  }, [dataF1.select, dataF2.select, dataF1.input, currency, convert]);
+    if (leftCurrencyFormSelValue && currency[leftCurrencyFormSelValue]) {
+      convert(leftCurrencyForm.input);
+    }
+  }, [
+    leftCurrencyForm.select,
+    rightCurrencyForm.select,
+    leftCurrencyForm.input,
+    currency,
+    convert,
+  ]);
 
-  const resetFormState = (ev, setStateF) => {
-    const selected = ev.target.value;
-
+  const resetFormState = (selected, currencyFormIndex) => {
     if (selected && currency[selected]) {
-      setStateF(prev => ({
-        ...prev,
+      const { Name, Value } = currency[selected];
+
+      updateCurrencyFormsByIndex(currencyFormIndex, {
         select: selected,
-        label: currency[selected].Name,
-        value: currency[selected].Value,
-      }));
+        label: Name,
+        value: Value,
+      });
     }
   };
 
-  const reverseData = () => {
-    const memorizeDataF1 = dataF1;
-    const memorizeDataF2 = dataF2;
+  const reverseData = () =>
+    setCurrencyForms([rightCurrencyForm, leftCurrencyForm]);
 
-    setDataF1(memorizeDataF2);
-    setDataF2(memorizeDataF1);
-  };
-
-  const elOptionList = options => {
-    return options.map(el => {
-      return (
-        <option key={el} value={el}>
-          {el}
+  const currencySelectOptionList = (
+    <>
+      {currencyOptions.map(option => (
+        <option key={option} value={option}>
+          {option}
         </option>
-      );
-    });
+      ))}
+    </>
+  );
+
+  const currencyForm = (currencyForm, index, className, id, disabled) => {
+    const handleChange = ({ target: { value } }) =>
+      updateCurrencyFormsByIndex(index, { input: value });
+
+    const handleResetFormState = ({ target: { value } }) =>
+      resetFormState(value, index);
+
+    return (
+      <Col sm={5} xs>
+        <form className={className}>
+          <label htmlFor={id}>{currencyForm.label}</label>
+          <br />
+          <select
+            className="converter_form_select"
+            onChange={handleResetFormState}
+            value={currencyForm.select}
+          >
+            {currencySelectOptionList}
+          </select>
+          <input
+            disabled={disabled}
+            id={id}
+            onChange={handleChange}
+            type="text"
+            value={currencyForm.input}
+          />
+        </form>
+      </Col>
+    );
   };
+
+  const getLeftCurrencyForm = currencyForm(
+    leftCurrencyForm,
+    0,
+    'converter_1',
+    'leftCurrencyForm',
+  );
+  const getRightCurrencyForm = currencyForm(
+    rightCurrencyForm,
+    1,
+    'converter_2',
+    'rightCurrencyForm',
+    true,
+  );
 
   return (
     <Container className="converter_wrapper">
       <Row>
-        {/* ---Form №1--- */}
-        <Col sm={5} xs>
-          <form className="converter_1">
-            <label htmlFor="form1">{dataF1.label}</label>
-            <br />
-            <select
-              className="converter_form_select"
-              onChange={ev => resetFormState(ev, setDataF1)}
-              value={dataF1.select}
-            >
-              {elOptionList(options)}
-            </select>
-            <input
-              id="form1"
-              onChange={({ target: { value } }) =>
-                setDataF1(prev => ({ ...prev, input: value }))
-              }
-              type="text"
-              value={dataF1.input}
-            />
-          </form>
-        </Col>
+        {getLeftCurrencyForm}
 
-        {/* ---Reverse Button--- */}
         <Col
           className="converter_arrow"
           onClick={reverseData}
@@ -141,21 +179,7 @@ const Converter = () => {
           &#x2194;
         </Col>
 
-        {/* ---Form №2--- */}
-        <Col sm={5} xs>
-          <form className="converter_2">
-            <label htmlFor="form2">{dataF2.label}</label>
-            <br />
-            <select
-              className="converter_form_select"
-              onChange={ev => resetFormState(ev, setDataF2)}
-              value={dataF2.select}
-            >
-              {elOptionList(options)}
-            </select>
-            <input disabled id="form2" type="text" value={dataF2.input} />
-          </form>
-        </Col>
+        {getRightCurrencyForm}
       </Row>
     </Container>
   );

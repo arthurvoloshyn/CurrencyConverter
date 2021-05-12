@@ -16,9 +16,9 @@
   box-shadow: 1px 4px 8px 0 rgba(34, 60, 80, 0.2);
 }
 
-@mixin animateFrame($name, $duration: '0.7s', $timing: 'ease-in-out') {
+@mixin animateFrame($name, $duration: '0.7s', $direction: 'normal') {
   $positionOrigin: 'left top';
-  animation-direction: #{$timing};
+  animation-direction: #{$direction};
   animation-duration: #{$duration};
   animation-fill-mode: forwards;
 

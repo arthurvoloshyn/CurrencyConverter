@@ -19,27 +19,6 @@ const CurrencyComponent = ({ CharCode, Value, Previous, Name, Nominal }) => {
     </Col>
   );
 
-  const currencyCols = [
-    {
-      className: 'p-0',
-      sm: 'auto',
-      xs: 'auto',
-      content: `${Nominal} ${CharCode}`,
-    },
-    {
-      className: 'text-center p-0',
-      sm: 2,
-      xs: 2,
-      content: '↔',
-    },
-    {
-      className: 'p-0',
-      sm: 'auto',
-      xs: 'auto',
-      content: `${Value} ${mainCurrency}`,
-    },
-  ];
-
   return (
     <Container className="currency_element">
       <Row className="currency_el_label" sm xs>
@@ -50,11 +29,17 @@ const CurrencyComponent = ({ CharCode, Value, Previous, Name, Nominal }) => {
       <Row className="currency_data_wrapper" sm="auto" xs="auto">
         <Col sm={7} xs={7}>
           <Row>
-            {currencyCols.map(({ className, sm, xs, content }) => (
-              <Col key={content} className={className} sm={sm} xs={xs}>
-                {content}
-              </Col>
-            ))}
+            <Col className="p-0" sm="auto" xs="auto">
+              {`${Nominal} ${CharCode}`}
+            </Col>
+
+            <Col className="text-center p-0" sm={2} xs={2}>
+              &#x2194;
+            </Col>
+
+            <Col className="p-0" sm="auto" xs="auto">
+              {`${Value} ${mainCurrency}`}
+            </Col>
           </Row>
         </Col>
 
@@ -64,7 +49,7 @@ const CurrencyComponent = ({ CharCode, Value, Previous, Name, Nominal }) => {
             style={{ color: precisionDelta > 0 ? 'green' : 'red' }}
           >
             {precisionDelta > 0 ? arrowUp : arrowDown}
-            <Col className="ml-2">{precisionDelta}</Col>
+            <Col className="ml-2 text-left">{precisionDelta}</Col>
           </Row>
         </Col>
       </Row>
