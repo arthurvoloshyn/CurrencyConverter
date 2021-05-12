@@ -15,11 +15,9 @@ function CurrencyList() {
   const { getCurrencyList } = currencyOperations;
 
   const dispatch = useDispatch();
-
   const defaultCurrency = useSelector(selectCurrency, shallowEqual);
-
   const [currency, setCurrency] = useState(defaultCurrency);
-  const [searchValue, setSearchValue] = useState(defaultCurrency);
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     dispatch(getCurrencyList());
@@ -35,40 +33,22 @@ function CurrencyList() {
     const filteredData = {};
 
     Object.keys(defaultCurrency)
-      .filter(index => {
-        const cName = defaultCurrency[index].Name;
-        const charCode = defaultCurrency[index].CharCode;
-        const cReg = new RegExp(`.*${searchValue}.*`, 'i');
+      .filter(ticker => {
+        const { Name, CharCode } = defaultCurrency[ticker];
+        const currencySearchRegExp = new RegExp(`.*${searchValue}.*`, 'i');
 
-        return cReg.test(cName) || cReg.test(charCode);
+        return (
+          currencySearchRegExp.test(Name) || currencySearchRegExp.test(CharCode)
+        );
       })
-      .forEach(index => {
-        filteredData[index] = defaultCurrency[index];
-      });
+      .forEach(ticker => (filteredData[ticker] = defaultCurrency[ticker]));
 
     if (Object.keys(filteredData).length) setCurrency(filteredData);
   };
 
-  const createList = (currencyData, CurrencyComponent) => {
-    return Object.keys(currencyData).map(key => {
-      const { ID, Value, Previous, Name, Nominal, CharCode } = currencyData[
-        key
-      ];
-
-      return (
-        <CurrencyComponent
-          key={ID}
-          CharCode={CharCode}
-          Name={Name}
-          Nominal={Nominal}
-          Previous={Previous}
-          Value={Value}
-        />
-      );
-    });
-  };
-
   const handleSearchValue = ({ target: { value } }) => setSearchValue(value);
+
+  const currencyData = Object.values(currency);
 
   return (
     <div className="currency_list_wrapper ">
@@ -77,8 +57,21 @@ function CurrencyList() {
         searchData={searchData}
         value={searchValue}
       />
-      {Object.keys(currency).length ? (
-        createList(currency, CurrencyComponent)
+      {currencyData ? (
+        <>
+          {currencyData.map(
+            ({ ID, Value, Previous, Name, Nominal, CharCode }) => (
+              <CurrencyComponent
+                key={ID}
+                CharCode={CharCode}
+                Name={Name}
+                Nominal={Nominal}
+                Previous={Previous}
+                Value={Value}
+              />
+            ),
+          )}
+        </>
       ) : (
         <Spinner animation="border" className="align-self-center " />
       )}

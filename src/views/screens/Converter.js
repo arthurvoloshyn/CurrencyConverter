@@ -1,22 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { Container, Row, Col } from 'react-bootstrap';
+
 import {
   currencySelectors,
   currencyOperations,
 } from '../../state/ducks/currency';
 
-function Converter() {
+const Converter = () => {
   const { selectCurrency } = currencySelectors;
   const { getCurrencyList } = currencyOperations;
 
   const dispatch = useDispatch();
-
   const currency = useSelector(selectCurrency);
-
   const [options, setOptions] = useState(['EUR', 'AUD', 'GBP']);
-
   const [dataF1, setDataF1] = useState({
     label: '',
     input: 1,
@@ -30,15 +27,14 @@ function Converter() {
     value: '',
   });
 
-  // --Make First Call to the API
   useEffect(() => {
     if (!Object.keys(currency).length) dispatch(getCurrencyList());
   }, [dispatch, currency, getCurrencyList]);
 
-  // --Populate Data
   useEffect(() => {
-    if (Object.keys(currency).length) {
-      const keys = Object.keys(currency);
+    const keys = Object.keys(currency);
+
+    if (keys.length) {
       setOptions(keys);
 
       setDataF1({
@@ -163,6 +159,6 @@ function Converter() {
       </Row>
     </Container>
   );
-}
+};
 
 export default Converter;
