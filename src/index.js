@@ -9,10 +9,10 @@ import { HashRouter as Router } from 'react-router-dom';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import ENV from './constants/environment';
-import store from './store/store';
+import store from './state/store';
 import App from './App';
-import ErrorBoundary from './components/ErrorBoundary';
-import Error from './components/Error';
+import ErrorBoundary from './views/components/ErrorBoundary';
+import Error from './views/components/Error';
 
 const error = <Error description="Something went wrong!" title="Error" />;
 

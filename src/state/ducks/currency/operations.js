@@ -1,4 +1,7 @@
-const getListAction = () => {
+import { setCurrency } from './actions';
+
+// eslint-disable-next-line import/prefer-default-export
+export const getCurrencyList = () => {
   return async dispatch => {
     const API = 'https://www.cbr-xml-daily.ru/daily_json.js';
 
@@ -8,16 +11,12 @@ const getListAction = () => {
 
     try {
       const response = await fetch(API, headers);
-      const data = await response.json();
+      const { Valute: currency = {} } = await response.json();
 
-      if (!data.Valute) dispatch({ type: 'SET_VALUTE', valute: {} });
-
-      dispatch({ type: 'SET_VALUTE', valute: data.Valute });
+      dispatch(setCurrency(currency));
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log(error);
     }
   };
 };
-
-export default getListAction;

@@ -3,23 +3,30 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
 import Spinner from 'react-bootstrap/Spinner';
 
-import getListAction from '../store/actions/getListCurrency';
+import {
+  currencySelectors,
+  currencyOperations,
+} from '../../state/ducks/currency';
 import CurrencyComponent from '../components/CurrencyComponent';
 import SearchForm from '../components/SearchForm';
 
 function CurrencyList() {
+  const { selectCurrency } = currencySelectors;
+  const { getCurrencyList } = currencyOperations;
+
   const dispatch = useDispatch();
 
-  const valute = useSelector(state => state.valute, shallowEqual);
+  const defaultCurrency = useSelector(selectCurrency, shallowEqual);
 
-  const [currency, setCurrency] = useState(valute);
+  const [currency, setCurrency] = useState(defaultCurrency);
 
   useEffect(() => {
-    dispatch(getListAction());
-  }, [dispatch]);
+    dispatch(getCurrencyList());
+  }, [dispatch, getCurrencyList]);
+
   useEffect(() => {
-    setCurrency(valute);
-  }, [valute]);
+    setCurrency(defaultCurrency);
+  }, [defaultCurrency]);
 
   const searchData = e => {
     e.preventDefault();
@@ -27,16 +34,16 @@ function CurrencyList() {
     const searchValue = e.target[0].value;
     const filteredData = {};
 
-    Object.keys(valute)
+    Object.keys(defaultCurrency)
       .filter(index => {
-        const cName = valute[index].Name;
-        const charCode = valute[index].CharCode;
+        const cName = defaultCurrency[index].Name;
+        const charCode = defaultCurrency[index].CharCode;
         const cReg = new RegExp(`.*${searchValue}.*`, 'i');
 
         return cReg.test(cName) || cReg.test(charCode);
       })
       .forEach(index => {
-        filteredData[index] = valute[index];
+        filteredData[index] = defaultCurrency[index];
       });
 
     if (Object.keys(filteredData).length) setCurrency(filteredData);

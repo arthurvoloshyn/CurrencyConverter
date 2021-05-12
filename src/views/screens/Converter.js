@@ -4,12 +4,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import getListAction from '../store/actions/getListCurrency';
+import {
+  currencySelectors,
+  currencyOperations,
+} from '../../state/ducks/currency';
 
 function Converter() {
+  const { selectCurrency } = currencySelectors;
+  const { getCurrencyList } = currencyOperations;
+
   const dispatch = useDispatch();
 
-  const valute = useSelector(state => state.valute);
+  const currency = useSelector(selectCurrency);
 
   const [options, setOptions] = useState(['EUR', 'AUD', 'GBP']);
 
@@ -28,29 +34,29 @@ function Converter() {
 
   // --Make First Call to the API
   useEffect(() => {
-    if (!Object.keys(valute).length) dispatch(getListAction());
-  }, [dispatch, valute]);
+    if (!Object.keys(currency).length) dispatch(getCurrencyList());
+  }, [dispatch, currency, getCurrencyList]);
 
   // --Populate Data
   useEffect(() => {
-    if (Object.keys(valute).length) {
-      const keys = Object.keys(valute);
+    if (Object.keys(currency).length) {
+      const keys = Object.keys(currency);
       setOptions(keys);
 
       setDataF1({
-        label: valute[keys[0]].Name,
+        label: currency[keys[0]].Name,
         input: 1,
         select: keys[0],
-        value: valute[keys[0]].Value,
+        value: currency[keys[0]].Value,
       });
       setDataF2({
-        label: valute[keys[1]].Name,
+        label: currency[keys[1]].Name,
         input: 1,
         select: keys[1],
-        value: valute[keys[1]].Value,
+        value: currency[keys[1]].Value,
       });
     }
-  }, [valute]);
+  }, [currency]);
 
   // --Convert Currency
   const convert = useCallback(
@@ -71,18 +77,18 @@ function Converter() {
   useEffect(() => {
     const selValueF1 = dataF1.select;
 
-    if (selValueF1 && valute[selValueF1]) convert(dataF1.input);
-  }, [dataF1.select, dataF2.select, dataF1.input, valute, convert]);
+    if (selValueF1 && currency[selValueF1]) convert(dataF1.input);
+  }, [dataF1.select, dataF2.select, dataF1.input, currency, convert]);
 
   const resetFormState = (ev, setStateF) => {
     const selected = ev.target.value;
 
-    if (selected && valute[selected]) {
+    if (selected && currency[selected]) {
       setStateF(prev => ({
         ...prev,
         select: selected,
-        label: valute[selected].Name,
-        value: valute[selected].Value,
+        label: currency[selected].Name,
+        value: currency[selected].Value,
       }));
     }
   };

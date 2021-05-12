@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import ROUTES from './constants/routes';
-import MainLayout from './layouts/Main';
+import MainLayout from './views/layouts/Main';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './sass/index.scss';

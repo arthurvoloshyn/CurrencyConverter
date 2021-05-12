@@ -1,21 +1,21 @@
-import CurrencyList from '../views/CurrencyList';
-import Converter from '../views/converter';
-import Error from '../components/Error';
+import CurrencyList from '../views/screens/CurrencyList';
+import Converter from '../views/screens/Converter';
+import Error from '../views/components/Error';
 
 const ROUTES = [
   {
-    id: 'home',
+    id: 'Currency',
     path: '/',
     exact: true,
     component: CurrencyList,
   },
   {
-    id: 'converter',
+    id: 'Converter',
     path: '/converter',
     component: Converter,
   },
   {
-    id: 'error',
+    id: 'Error',
     component: Error,
     props: { subTitle: 'Oops! Nothing was found.' },
   },
