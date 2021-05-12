@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Error = ({ title, description, subTitle }) => (
   <div className="error">
@@ -7,7 +8,7 @@ const Error = ({ title, description, subTitle }) => (
       {subTitle && <h2>{subTitle}</h2>}
       <h1>{title}</h1>
       <p>{description}</p>
-      <a href="/">Go back home</a>
+      <Link to="/">Go back home</Link>
     </div>
   </div>
 );
