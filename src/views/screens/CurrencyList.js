@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
-import Spinner from 'react-bootstrap/Spinner';
+import { Spinner } from 'react-bootstrap';
 
 import {
   currencySelectors,
@@ -19,6 +19,7 @@ function CurrencyList() {
   const defaultCurrency = useSelector(selectCurrency, shallowEqual);
 
   const [currency, setCurrency] = useState(defaultCurrency);
+  const [searchValue, setSearchValue] = useState(defaultCurrency);
 
   useEffect(() => {
     dispatch(getCurrencyList());
@@ -31,7 +32,6 @@ function CurrencyList() {
   const searchData = e => {
     e.preventDefault();
 
-    const searchValue = e.target[0].value;
     const filteredData = {};
 
     Object.keys(defaultCurrency)
@@ -51,15 +51,32 @@ function CurrencyList() {
 
   const createList = (currencyData, CurrencyComponent) => {
     return Object.keys(currencyData).map(key => {
-      const obgEl = currencyData[key];
+      const { ID, Value, Previous, Name, Nominal, CharCode } = currencyData[
+        key
+      ];
 
-      return <CurrencyComponent key={obgEl.ID} currency={obgEl} />;
+      return (
+        <CurrencyComponent
+          key={ID}
+          CharCode={CharCode}
+          Name={Name}
+          Nominal={Nominal}
+          Previous={Previous}
+          Value={Value}
+        />
+      );
     });
   };
 
+  const handleSearchValue = ({ target: { value } }) => setSearchValue(value);
+
   return (
     <div className="currency_list_wrapper ">
-      <SearchForm searchData={searchData} />
+      <SearchForm
+        onChange={handleSearchValue}
+        searchData={searchData}
+        value={searchValue}
+      />
       {Object.keys(currency).length ? (
         createList(currency, CurrencyComponent)
       ) : (
