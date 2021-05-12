@@ -62,14 +62,14 @@
     transition: transform 0.2s;
     user-select: none;
     width: 25px;
-  }
 
-  &:hover {
-    background-color: rgb(228, 226, 220);
-    transform: scale(1.18);
-  }
+    &:hover {
+      background-color: rgb(228, 226, 220);
+      transform: scale(1.18);
+    }
 
-  &:active {
-    background-color: rgb(235, 231, 225);
+    &:active {
+      background-color: rgb(235, 231, 225);
+    }
   }
 }
