@@ -1,24 +1,27 @@
 import 'react-app-polyfill/ie9';
 import 'react-app-polyfill/stable';
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { StrictMode } from 'react';
+import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware, compose } from 'redux';
-import App from './App';
+
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import rootReducer from './store/reducers/rootReducer';
+import store from './store/store';
+import App from './App';
+import ErrorBoundary from './components/ErrorBoundary';
+import Error from './components/Error';
 
-const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
+const error = <Error description="Something went wrong!" title="Error" />;
 
-ReactDOM.render(
-  <React.StrictMode>
+render(
+  <StrictMode>
     <Provider store={store}>
-      <App />
+      <ErrorBoundary fallback={error}>
+        <App />
+      </ErrorBoundary>
     </Provider>
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById('root'),
 );
 

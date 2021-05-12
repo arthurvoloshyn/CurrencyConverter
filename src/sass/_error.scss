@@ -1,0 +1,51 @@
+.error {
+  align-items: center;
+  background: linear-gradient(45deg, #2e3192, #1bffff);
+  display: flex;
+  font-family: 'Montserrat', sans-serif;
+  justify-content: center;
+  margin: 0;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.container {
+  text-align: center;
+
+  h2 {
+    margin: 10px 0;
+  }
+
+  h1 {
+    background: url('https://images.pexels.com/photos/326055/pexels-photo-326055.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260')
+      center;
+    -webkit-background-clip: text;
+    background-size: cover;
+    font-size: 170px;
+    font-weight: 800;
+    letter-spacing: 20px;
+    margin: 0;
+    -webkit-text-fill-color: transparent;
+  }
+
+  p {
+    font-size: 20px;
+  }
+
+  a {
+    background-color: #fa1918;
+    border-radius: 20px;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    padding: 3% 6%;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.3s ease;
+
+    &:hover {
+      background-color: #45145a;
+      box-shadow: -5px 5px 20px -5px #010101;
+    }
+  }
+}
