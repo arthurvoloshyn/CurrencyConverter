@@ -13,23 +13,24 @@
 //--Mixins
 @mixin boxDecoration() {
   border-radius: 4px;
-  box-shadow: 1px 4px 8px 0px rgba(34, 60, 80, 0.2);
+  box-shadow: 1px 4px 8px 0 rgba(34, 60, 80, 0.2);
 }
+
 @mixin animateFrame($name, $duration: '0.7s', $timing: 'ease-in-out') {
   $positionOrigin: 'left top';
-
-  animation-name: #{$name};
+  animation-direction: #{$timing};
   animation-duration: #{$duration};
   animation-fill-mode: forwards;
-  animation-direction: #{$timing};
+
+  animation-name: #{$name};
 
   @if $name == 'slideLeft' {
     @keyframes #{$name} {
       from {
-        transform: translate(100vw, 0vh);
+        transform: translate(100vw, 0);
       }
       to {
-        transform: translate(0vw, 0vh);
+        transform: translate(0, 0);
       }
     }
   }
@@ -70,10 +71,10 @@
   }
 
   .active {
-    border-radius: 5px;
-    padding: inherit;
     background-color: rgb(29, 167, 247);
-    color: lavenderblush;
+    border-radius: 5px;
+    color: #fff0f5;
+    padding: inherit;
   }
 }
 
@@ -81,22 +82,21 @@
 .currency_list_wrapper {
   display: flex;
   flex-direction: column;
+  margin: 15px 0 0;
   text-align: left;
-  margin: 15px 0px 0px;
 }
 .currency_element {
-  padding: 4px 0 5px;
+  @include boxDecoration();
+  @include animateFrame('opacity', '1s');
+  background-color: rgb(235, 235, 235);
   margin-top: 10px;
   max-width: 380px;
   min-height: 80px;
-  background-color: rgb(235, 235, 235);
-
-  @include boxDecoration();
-  @include animateFrame('opacity', '1s');
+  padding: 4px 0 5px;
 
   & > * {
-    max-width: 100%;
     margin: 0;
+    max-width: 100%;
     padding: 5px 15px 5px;
   }
 }
@@ -125,38 +125,36 @@
   justify-content: center;
 
   & > * {
+    align-self: center;
     justify-content: center;
     text-align: center;
-    align-self: center;
   }
   form {
-    text-align: left;
-    padding: 8px;
-    background-color: rgb(236, 235, 232);
-
     @include boxDecoration();
     @include animateFrame('opacity');
+    background-color: rgb(236, 235, 232);
+    padding: 8px;
+    text-align: left;
 
     label {
       font-size: 14px;
-      width: 100%;
-      white-space: nowrap;
-      text-overflow: ellipsis;
       overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
     }
     select,
     input {
       background-color: inherit;
-      outline: none;
       border: none;
+      outline: none;
     }
     input {
-      max-width: 50%;
-      margin-left: 5px;
-      border-bottom: 1.5px solid rgb(56, 120, 180);
-      margin-right: 20px;
-
       background-color: inherit;
+      border-bottom: 1.5px solid rgb(56, 120, 180);
+      margin-left: 5px;
+      margin-right: 20px;
+      max-width: 50%;
     }
   }
   .converter_2 input {
@@ -168,22 +166,22 @@
     align-self: center;
     background-color: rgb(236, 235, 232);
     border-radius: 50%;
-    height: 25px;
-    width: 25px;
-    padding: 0;
     cursor: pointer;
-    user-select: none;
+    height: 25px;
+    padding: 0;
     transition: transform 0.2s;
+    user-select: none;
+    width: 25px;
   }
 }
 
 //--Form Serarch Component
 .searchForm {
-  width: 380px;
-  margin: auto;
   display: flex;
   justify-content: center;
+  margin: auto;
   margin-bottom: 20px;
+  width: 380px;
 
   input {
     border: none;
@@ -223,3 +221,5 @@
     font-size: 3.7vmin;
   }
 }
+
+@import 'error';

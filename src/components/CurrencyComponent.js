@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -11,41 +12,41 @@ export default function CurrencyComponent({ currency }) {
   delta = delta.toPrecision(4);
 
   const arrowUp = (
-    <Col xs={1} sm={1}>
+    <Col sm={1} xs={1}>
       &#x2191;
     </Col>
   );
   const arrowDown = (
-    <Col xs={1} sm={1}>
+    <Col sm={1} xs={1}>
       &#x2193;
     </Col>
   );
 
   return (
     <Container className="currency_element">
-      <Row xs={true} sm={true} className="currency_el_label">
+      <Row className="currency_el_label" sm xs>
         {' '}
         {currency.Name}{' '}
       </Row>
 
-      <Row xs="auto" sm="auto" className="currency_data_wrapper">
-        <Col xs={7} sm={7}>
+      <Row className="currency_data_wrapper" sm="auto" xs="auto">
+        <Col sm={7} xs={7}>
           <Row>
-            <Col xs="auto" sm="auto" className="p-0">
-              {currency.Nominal + ` ` + currency.CharCode}
+            <Col className="p-0" sm="auto" xs="auto">
+              {`${currency.Nominal} ${currency.CharCode}`}
             </Col>
 
-            <Col xs={2} sm={2} className="text-center p-0">
+            <Col className="text-center p-0" sm={2} xs={2}>
               &#x2194;
             </Col>
 
-            <Col xs="auto" sm="auto" className="p-0">
-              {currency.Value + ' ' + mainCurrency}
+            <Col className="p-0" sm="auto" xs="auto">
+              {`${currency.Value} ${mainCurrency}`}
             </Col>
           </Row>
         </Col>
 
-        <Col xs={4} sm={4} className="ml-sm-4">
+        <Col className="ml-sm-4" sm={4} xs={4}>
           <Row
             className="delta_wrapper"
             style={{ color: delta > 0 ? 'green' : 'red' }}
@@ -58,3 +59,25 @@ export default function CurrencyComponent({ currency }) {
     </Container>
   );
 }
+
+CurrencyComponent.propTypes = {
+  currency: PropTypes.shape({
+    CharCode: PropTypes.string,
+    ID: PropTypes.string,
+    Name: PropTypes.string,
+    Nominal: PropTypes.number,
+    Previous: PropTypes.number,
+    Value: PropTypes.number,
+  }),
+};
+
+CurrencyComponent.defaultProps = {
+  currency: {
+    CharCode: '',
+    ID: '',
+    Name: '',
+    Nominal: 0,
+    Previous: 0,
+    Value: 0,
+  },
+};

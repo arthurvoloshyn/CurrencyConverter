@@ -3,7 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 
 import Spinner from 'react-bootstrap/Spinner';
 
-import { getListAction } from '../store/actions/getListCurrency';
+import getListAction from '../store/actions/getListCurrency';
 import CurrencyComponent from '../components/CurrencyComponent';
 import SearchForm from '../components/SearchForm';
 
@@ -24,18 +24,18 @@ function CurrencyList() {
   const searchData = e => {
     e.preventDefault();
 
-    let searchValue = e.target[0].value;
-    let filteredData = {};
+    const searchValue = e.target[0].value;
+    const filteredData = {};
 
     Object.keys(valute)
       .filter(index => {
-        let cName = valute[index].Name;
-        let charCode = valute[index].CharCode;
-        let cReg = new RegExp(`.*${searchValue}.*`, 'i');
+        const cName = valute[index].Name;
+        const charCode = valute[index].CharCode;
+        const cReg = new RegExp(`.*${searchValue}.*`, 'i');
 
         return cReg.test(cName) || cReg.test(charCode);
       })
-      .map(index => {
+      .forEach(index => {
         filteredData[index] = valute[index];
       });
 
@@ -43,10 +43,10 @@ function CurrencyList() {
   };
 
   const createList = (currencyData, CurrencyComponent) => {
-    return Object.keys(currencyData).map(function(key, index) {
-      let obgEl = currencyData[key];
+    return Object.keys(currencyData).map(key => {
+      const obgEl = currencyData[key];
 
-      return <CurrencyComponent currency={obgEl} key={obgEl.ID} />;
+      return <CurrencyComponent key={obgEl.ID} currency={obgEl} />;
     });
   };
 

@@ -270,13 +270,16 @@
     "react/jsx-boolean-value": "error",
     "react/jsx-closing-bracket-location": "error",
     "react/jsx-curly-spacing": "error",
+    "react/jsx-curly-newline": "off",
     "react/jsx-indent-props": "error",
     "react/jsx-key": "error",
     "react/jsx-max-props-per-line": "error",
     "react/jsx-no-literals": "off",
     "react/jsx-no-undef": "error",
     "react/jsx-pascal-case": "error",
+    "react/jsx-props-no-spreading": "off",
     "react/jsx-sort-props": "error",
+    "react/jsx-one-expression-per-line": "off",
     "react/no-danger": "error",
     "react/no-did-update-set-state": "error",
     "react/no-multi-comp": "error",
@@ -301,6 +304,7 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/state-in-constructor": "off",
+    "react/static-property-placement": "off",
     "react/button-has-type": "off",
     "react/prop-types": "error",
 
@@ -310,6 +314,8 @@
 
     "jsx-a11y/anchor-is-valid": "error",
     "jsx-a11y/click-events-have-key-events": "off",
-    "jsx-a11y/no-static-element-interactions": "off"
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/no-onchange": "off",
+    "jsx-a11y/label-has-for": "off"
   }
 }
